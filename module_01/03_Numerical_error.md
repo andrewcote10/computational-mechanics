@@ -4,10 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.6.0
+    format_version: 0.13
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -69,7 +69,8 @@ import matplotlib.pyplot as plt
 Calculate the terminal velocity for the given parameters, g=9.81 m/s$^2$, c=0.25 kg/m, m=60 kg.
 
 ```{code-cell} ipython3
-
+v_terminal = np.sqrt((60*9.81)/0.25)
+print(v_terminal)
 ```
 
 ```{code-cell} ipython3
@@ -175,7 +176,7 @@ t=[0,2,4,6,8,10,12]
 import numpy as np
 #t=np.array([0,2,4,6,8,10,12])
 # or 
-t=np.linspace(0,12,7)
+t = np.linspace(0, 12, 14)
 ```
 
 Now, you create a `for`-loop to solve for `v_numerical` at times 2, 4, 6, 8, 10, and 12 sec. We don't need to solve for `v_numerical` at time 0 seconds because this is the initial velocity of the object. In this example, the initial velocity is v(0)=0 m/s.
@@ -223,7 +224,7 @@ plt.rcParams['lines.linewidth'] = 3
 ```{code-cell} ipython3
 plt.plot(t,v_analytical(t,m,g,c),'-',label='analytical')
 plt.plot(t,v_numerical,'o-',label='numerical')
-plt.legend()
+plt.legend(loc='best')
 plt.xlabel('time (s)')
 plt.ylabel('velocity (m/s)')
 ```
@@ -240,6 +241,11 @@ What happens when you decrease the number of time steps?
 
 ```{code-cell} ipython3
 
+plt.plot(t, v_analytical(t,m,g,c),'-', label='Analytical');
+plt.plot(t, v_numerical,'o-', label='Numerical');
+plt.legend(loc='best');
+plt.xlabel('Time (s)');
+plt.ylabel('Velocity (m/s)');
 ```
 
 ## Errors in Numerical Modeling
@@ -321,6 +327,7 @@ pi=np.pi
 
 double=np.array([pi],dtype='float64')
 single=np.array([pi],dtype='float32')
+
 print('double precision 64 bit pi = {:1.27f}'.format(double[0])) # 64-bit
 print('single precision 32 bit pi = {:1.27f}'.format(single[0])) # 32-bit
 print('First 27 digits of pi      = 3.141592653589793238462643383')
@@ -416,7 +423,20 @@ print(N/2,'*eps=',(s2-1))
 
 2. What is machine epsilon for a 32-bit floating point number?
 
-+++
+```{code-cell} ipython3
+for i in range(1,N):
+    s1 += 2*eps;
+    
+s2 = 1 + 2*eps
+
+print(eps)
+print(s1)
+print(s2)
+```
+
+```{code-cell} ipython3
+print(np.finfo('float32').eps)
+```
 
 ## Freefall Model (revisited)
 
@@ -517,7 +537,7 @@ First, solve for `n=2` steps, so t=[0,2]. We can time the solution to get a sens
 
 ```{code-cell} ipython3
 %%time
-n=5
+n=2000
 
 v_analytical,v_numerical,t=freefall(n);
 ```
@@ -538,7 +558,7 @@ import matplotlib.pyplot as plt
 ```
 
 ```{code-cell} ipython3
-plt.plot(t,v_numerical,'o',label=str(n)+' Euler steps')
+plt.plot(t,v_numerical,'o-',label=str(n)+' Euler steps')
 plt.plot(t,v_analytical,label='analytical')
 plt.title('First 2 seconds of freefall')
 plt.xlabel('time (s)')
@@ -565,7 +585,7 @@ In the next plot, you consider the relative error for the velocity at t=2 s, as 
 $^+$ Note: In practice, there is no reason to restrict the precision of floating point numbers. The function was written this way to highlight the effect of roundoff error without significant computational resources. You would need more timesteps to observe floating point error with 64-bit floating point numbers.
 
 ```{code-cell} ipython3
-n = np.arange(500, 100000, 500) # create an array from 10^1 to 10^3 with N values
+n = np.arange(100, 100000, 500) # create an array from 10^1 to 10^3 with N values
 N = len(n)
 error = np.zeros(N, dtype = np.float32)    # initialize an N-valued array of relative errors
 
