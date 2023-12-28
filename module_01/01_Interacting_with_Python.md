@@ -4,10 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.12
-    jupytext_version: 1.6.0
+    format_version: 0.13
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -246,7 +246,29 @@ Use Python (as a calculator) to solve the following two problems:
 2. Suppose the cover price of a book is $\$ 24.95$, but bookstores get a $40\%$ discount. Shipping costs $\$3$ for the first copy and $75$ cents for each additional copy. What is the total wholesale cost for $60$ copies? Compare your answer with the solution up to 2 decimal numbers.
 
 ```{code-cell} ipython3
+import numpy as np
 
+# Problem 1
+d = 6.65 #cm
+r = d / 2 #cm
+V =  (4/3)*np.pi*r**3
+print(V)
+
+# Problem 2
+cover_price = 24.95
+discount = 0.4
+first_shipping = 3.00
+rest_shipping = 0.75
+
+discounted_price = cover_price * (1-discount)
+total_cost = 0
+for i in range(60):
+    if i == 1:
+        total_cost += discounted_price + first_shipping
+    else:
+        total_cost += discounted_price + rest_shipping
+        
+print(total_cost)
 ```
 
 To reveal the answers, highlight the following line of text using the mouse:
@@ -310,7 +332,8 @@ y = 4.5
 Print the values of the variables `x` and `y`.
 
 ```{code-cell} ipython3
-
+print(x)
+print(y)
 ```
 
 Let's do some arithmetic operations with our new variables:
@@ -416,6 +439,8 @@ Notice what you did above: you used the `print()` function with a string
 message, followed by a variable, and Python printed a useful combination
 of the message and the variable value. This is a pro tip! You want to
 print for humans. Let's now check the type of the new variables you just created above:
+
+**Note:** When inserting a variable into the output like sum_xy above, the string must be closed with parentheses and then followed by a comma, and then the variable is inserted without any formatting.
 
 ```{code-cell} ipython3
 type(sum_xy)
@@ -576,3 +601,7 @@ Throughout this course module, you will be drawing from the following references
 1. _Effective Computation in Physics: Field Guide to Research with Python_ (2015). Anthony Scopatz & Kathryn D. Huff. O'Reilly Media, Inc.
 2. _Python for Everybody: Exploring Data Using Python 3_ (2016). Charles R. Severance. [PDF available](http://do1.dr-chuck.com/pythonlearn/EN_us/pythonlearn.pdf)
 3. _Think Python: How to Think Like a Computer Scientist_ (2012). Allen Downey. Green Tea Press.  [PDF available](http://greenteapress.com/thinkpython/thinkpython.pdf)
+
+```{code-cell} ipython3
+
+```

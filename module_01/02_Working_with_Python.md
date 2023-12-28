@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.10.3
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -43,7 +43,7 @@ Its important to comment your code
 
 - what the is the function supposed to do, 
 
-- etc. 
+- etc.
 
 ```{code-cell} ipython3
 def code(i):
@@ -157,8 +157,6 @@ The next 4 lines define a help documentation that can be accessed with in a coup
 
 3. `help(factorial_function)`
 
-
-
 ```{code-cell} ipython3
 factorial_function?
 ```
@@ -261,7 +259,7 @@ in addition to this. Some of them above.
 
 Play with `np.ones()` and `np.zeros()`: they create arrays full of ones
 and zeros, respectively. You pass as an argument the number of array
-elements we want. 
+elements we want.
 
 ```{code-cell} ipython3
 np.ones(5)
@@ -302,7 +300,7 @@ np.arange(2, 6, 0.5)
 
 `np.linspace(start, stop, num)`
 
-`stop` is included by default (it can be removed, read the docs), and `num` by default is 50. 
+`stop` is included by default (it can be removed, read the docs), and `num` by default is 50.
 
 ```{code-cell} ipython3
 np.linspace(2.0, 3.0)
@@ -427,6 +425,10 @@ a = np.arange(24)
 ```
 
 ```{code-cell} ipython3
+print(a)
+```
+
+```{code-cell} ipython3
 a_3D = np.reshape(a, (2, 3, 4))
 print(a_3D)
 ```
@@ -477,7 +479,13 @@ From the X array:
 1. Grab the 2nd element in the 1st column.
 2. Grab the 2nd element in the 2nd column.
 
-+++
+```{code-cell} ipython3
+X[1,0]
+```
+
+```{code-cell} ipython3
+X[1,1]
+```
 
 Play with slicing on this array:
 
@@ -503,9 +511,15 @@ From the X array:
 1. Grab the 2nd column.
 2. Grab the 2nd row.
 
-+++
+```{code-cell} ipython3
+X[:,1]
+```
 
-Let's practice with a 3D array. 
+```{code-cell} ipython3
+X[1,:]
+```
+
+Let's practice with a 3D array.
 
 ```{code-cell} ipython3
 a_3D
@@ -523,7 +537,7 @@ The line above is telling NumPy that you want:
 * second `':'`: from the second dimension, grab all the elements (all the rows).
 * `'0'`       : from the third dimension, grab the first element (first column).
 
-If you want the first 2 elements of the first column of both matrices: 
+If you want the first 2 elements of the first column of both matrices:
 
 ```{code-cell} ipython3
 a_3D[:, 0:2, 0]
@@ -542,9 +556,23 @@ From the array named `a_3D`:
 1. Grab the two middle elements (17, 18) from the second matrix.
 2. Grab the last row from both matrices.
 3. Grab the elements of the 1st matrix that exclude the first row and the first column. 
-4. Grab the elements of the 2nd matrix that exclude the last row and the last column. 
+4. Grab the elements of the 2nd matrix that exclude the last row and the last column.
 
-+++
+```{code-cell} ipython3
+a_3D[1,1,1:3]
+```
+
+```{code-cell} ipython3
+a_3D[:,2,:]
+```
+
+```{code-cell} ipython3
+a_3D[0,1:,1:]
+```
+
+```{code-cell} ipython3
+a_3D[1,:2,:3]
+```
 
 ## NumPy == Fast and Clean! 
 
@@ -591,7 +619,7 @@ element-wise sum into a new list you call `result_lst`.
 
 For timing, you can use the IPython "magic" `%%time`. Writing at the
 beginning of the code cell the command `%%time` will give us the time it
-takes to execute all the code in that cell. 
+takes to execute all the code in that cell.
 
 ```{code-cell} ipython3
 %%time
@@ -643,15 +671,55 @@ Notice that in the case of arrays, the code not only is more readable (just one 
 ##### Exercise
 
 1. Try the comparison between lists and arrays, using bigger arrays; for example, of size 10,000. 
-2. Repeat the analysis, but now computing the operation that raises each element of an array/list to the power two. Use arrays of 10,000 elements. 
+2. Repeat the analysis, but now computing the operation that raises each element of an array/list to the power two. Use arrays of 10,000 elements.
 
-+++
+```{code-cell} ipython3
+ary1 = random.sample(range(100000),100000)
+ary2 = random.sample(range(100000),100000)
+```
+
+```{code-cell} ipython3
+%%time
+ary = []
+for i in range(100000):
+    ary.append(ary1[i] + ary2[i])
+```
+
+```{code-cell} ipython3
+array_1 = np.random.randint(0,100000,size=100000)
+array_2 = np.random.randint(0,100000,size=100000)
+```
+
+```{code-cell} ipython3
+%%time
+arr = array_1 + array_2
+```
+
+```{code-cell} ipython3
+ary1 = random.sample(range(10000),10000)
+```
+
+```{code-cell} ipython3
+%%time
+ary = []
+for i in range(10000):
+    ary.append(ary1[i]**2)
+```
+
+```{code-cell} ipython3
+array_1 = np.random.randint(0,10000,size=10000)
+```
+
+```{code-cell} ipython3
+%%time
+arr = array_1**2
+```
 
 ## Time to Plot
 
 You will love the Python library **Matplotlib**! You'll learn here about its module `pyplot`, which makes line plots. 
 
-We need some data to plot. Let's define a NumPy array, compute derived data using its square, cube and square root (element-wise), and plot these values with the original array in the x-axis. 
+We need some data to plot. Let's define a NumPy array, compute derived data using its square, cube and square root (element-wise), and plot these values with the original array in the x-axis.
 
 ```{code-cell} ipython3
 xarray = np.linspace(0, 2, 41)
@@ -669,7 +737,6 @@ pow_half = np.sqrt(xarray)
 To plot the resulting arrays as a function of the orginal one (`xarray`)
 in the x-axis, you need to import the module `pyplot` from **Matplotlib**.
 
-
 ```{code-cell} ipython3
 import matplotlib.pyplot as plt
 ```
@@ -683,7 +750,7 @@ plt.rcParams.update({'font.size': 22})
 plt.rcParams['lines.linewidth'] = 3
 ```
 
-The line `%matplotlib inline` is an instruction to get the output of plotting commands displayed "inline" inside the notebook. Other options for how to deal with plot output are available, but not of interest to you right now. 
+The line `%matplotlib inline` is an instruction to get the output of plotting commands displayed "inline" inside the notebook. Other options for how to deal with plot output are available, but not of interest to you right now.
 
 +++
 
@@ -726,9 +793,16 @@ If you are curious, you can explore all the beautiful plots you can make by brow
 
 ##### Exercise:
 
-Pick two different operations to apply to the `xarray` and plot them the resulting data in the same plot. 
+Pick two different operations to apply to the `xarray` and plot them the resulting data in the same plot.
 
-+++
+```{code-cell} ipython3
+cubed_root = np.cbrt(xarray)
+pow1andhalf = xarray**1.5
+
+plt.plot(xarray, cubed_root, color='gold', linestyle='-', label='$\sqrt[3]{x}$')
+plt.plot(xarray, pow1andhalf, color='silver', linestyle='-', label='$x^{1.5}$')
+plt.legend(loc='best');
+```
 
 ## What you've learned
 
@@ -752,3 +826,7 @@ Pick two different operations to apply to the `xarray` and plot them the resulti
 2. _Numerical Python: A Practical Techniques Approach for Industry_. (2015). Robert Johansson. Appress. 
 
 2. ["The world of Jupyter"—a tutorial](https://github.com/barbagroup/jupyter-tutorial). Lorena A. Barba - 2016
+
+```{code-cell} ipython3
+
+```
